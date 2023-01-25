@@ -1,40 +1,23 @@
-const http = require('http');
+const express = require("express");
 
-const port = 8080
+const app = express();
 
-const fs = require('fs');
-
-const server = http.createServer((request, response) => {
-  
-  response.setHeader('Content-Type', 'text/html')
-  
-  let path = ""
-  switch(request.url) {
-    case '/':
-      path += 'index.html'
-      break;
-    case '/about':
-      path += 'about.html'
-      break;
-    case '/contact-me':
-      path += 'contact-me.html'
-      break;
-    default:
-      path += '404.html'
-      break;
-  }
-
-  fs.readFile(path, (error, data) => {
-    if (error) {
-      console.log(error)
-    } else {
-      response.write(data)
-      response.end()
-    }
-  })
-
+app.get("/", (request, response) => {
+  response.sendFile('./index.html')
 })
 
-server.listen(port, () => {
-  console.log(`Server running at port ${port}`)
+app.get('/about', (request, response) => {
+  response.sendFile('./about.html')
 })
+
+app.get('/contact-me', (request, response) => {
+  response.sendFile('./contact-me.html')
+})
+
+app.use((request, response) => {
+  response.sendFile('./404.html')
+})
+
+app.listen(8080, () => {
+  console.log("Server started on port 8080")
+});
