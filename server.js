@@ -8,7 +8,7 @@ app.listen(port, () => {
   console.log(`Server started on port ${port}`)
 });
 
-app.get('/', (request, response) => {
+app.get('/home', (request, response) => {
   response.sendFile(__dirname + '/index.html')
 })
 
